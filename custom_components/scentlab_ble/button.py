@@ -19,7 +19,12 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the schedule refresh button."""
-    async_add_entities([ScentLabRefreshSchedulesButton(entry.runtime_data)])
+    async_add_entities(
+        [
+            ScentLabRefreshSchedulesButton(entry.runtime_data),
+            ScentLabSynchroniseTimeButton(entry.runtime_data),
+        ]
+    )
 
 
 class ScentLabRefreshSchedulesButton(ButtonEntity):
@@ -45,3 +50,28 @@ class ScentLabRefreshSchedulesButton(ButtonEntity):
     async def async_press(self) -> None:
         """Read every schedule and update all schedule entities."""
         await self.controller.async_refresh_schedules()
+
+
+class ScentLabSynchroniseTimeButton(ButtonEntity):
+    """Synchronise the diffuser's internal clock."""
+
+    _attr_has_entity_name = True
+    _attr_name = "Synchronise time"
+    _attr_icon = "mdi:clock-sync"
+    _attr_entity_category = EntityCategory.CONFIG
+
+    def __init__(self, controller: ScentLabBleController) -> None:
+        self.controller = controller
+        self._attr_unique_id = f"{controller.address}_synchronise_time"
+        self._attr_device_info = device_info(controller)
+
+    @property
+    def available(self) -> bool:
+        """Return whether a connectable adapter can see the diffuser."""
+        return bluetooth.async_address_present(
+            self.hass, self.controller.address, connectable=True
+        )
+
+    async def async_press(self) -> None:
+        """Set the diffuser clock to Home Assistant's local date and time."""
+        await self.controller.async_sync_time()
