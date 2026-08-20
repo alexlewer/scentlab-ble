@@ -26,6 +26,7 @@ The phone app should be closed while Home Assistant controls the diffuser as the
 - Rejects overlapping operations immediately instead of replaying queued commands
   after Bluetooth connectivity returns.
 - Debug logging includes transmitted packets and received notifications.
+- When a command is sent from HA, you will hear three sets of two beeps; the first set is the connection starting, the second is the command being sent and the third is the connection ending.
 
 ## Schedule entities
 
@@ -36,9 +37,10 @@ The integration reads all timer records on startup and exposes five independent 
 - `Schedule N End Time`
 - `Schedule N Spray` in seconds
 - `Schedule N Pause` in seconds
+- `Schedule N Days` to select the relevant schedule day(s)-of-week
 - `Refresh schedules` button
 
-Before each schedule write, the integration reads the current 16-byte record and changes only the requested field. This preserves its weekday mask, serial number, timer ID, and all other settings. It reads the schedules again after the write to publish the state actually stored by the diffuser.
+Before each schedule write, the integration reads the current 16-byte record and changes only the requested field. This preserves its serial number, timer ID, and all other settings. It reads the schedules again after the write to publish the state actually stored by the diffuser.
 
 Use the refresh button after changing schedules in ScentLab. The device does not accept schedules that cross midnight; use two schedule groups for a period spanning midnight.
 
