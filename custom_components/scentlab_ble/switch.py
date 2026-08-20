@@ -6,12 +6,11 @@ from homeassistant.components import bluetooth
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.restore_state import RestoreEntity
 
-from .const import DOMAIN
 from .controller import ScentLabBleController
+from .entity import ScentLabScheduleEntity, device_info
 
 
 async def async_setup_entry(
@@ -20,7 +19,11 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the ScentLab BLE switch."""
-    async_add_entities([ScentLabPowerSwitch(entry.runtime_data)])
+    controller = entry.runtime_data
+    async_add_entities(
+        [ScentLabPowerSwitch(controller)]
+        + [ScentLabScheduleSwitch(controller, slot) for slot in range(1, 6)]
+    )
 
 
 class ScentLabPowerSwitch(SwitchEntity, RestoreEntity):
@@ -34,13 +37,7 @@ class ScentLabPowerSwitch(SwitchEntity, RestoreEntity):
     def __init__(self, controller: ScentLabBleController) -> None:
         self._controller = controller
         self._attr_unique_id = f"{controller.address}_power"
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, controller.address)},
-            connections={(CONNECTION_BLUETOOTH, controller.address)},
-            manufacturer="ScentLab / YooAI",
-            model="B04P BLE diffuser",
-            name=controller.name,
-        )
+        self._attr_device_info = device_info(controller)
 
     @property
     def available(self) -> bool:
@@ -66,3 +63,27 @@ class ScentLabPowerSwitch(SwitchEntity, RestoreEntity):
         await self._controller.async_set_power(False)
         self._attr_is_on = False
         self.async_write_ha_state()
+
+
+class ScentLabScheduleSwitch(ScentLabScheduleEntity, SwitchEntity):
+    """Enable or disable one independent diffuser schedule slot."""
+
+    _attr_icon = "mdi:calendar-clock"
+
+    def __init__(self, controller: ScentLabBleController, slot: int) -> None:
+        super().__init__(controller, slot)
+        self._attr_name = f"Schedule {slot} enabled"
+        self._attr_unique_id = f"{controller.address}_schedule_{slot}_enabled"
+
+    @property
+    def is_on(self) -> bool | None:
+        """Return the cached enable flag."""
+        return self.record.enabled if self.record is not None else None
+
+    async def async_turn_on(self, **kwargs: object) -> None:
+        """Enable this schedule without changing its other fields."""
+        await self.controller.async_update_schedule(self.slot, enabled=True)
+
+    async def async_turn_off(self, **kwargs: object) -> None:
+        """Disable this schedule without changing its other fields."""
+        await self.controller.async_update_schedule(self.slot, enabled=False)
