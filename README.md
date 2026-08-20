@@ -1,6 +1,6 @@
 # ScentLab BLE Diffuser for Home Assistant
 
-This custom integration was built to control a [Magnifiscent ZenPlug](https://magnifiscentonline.com/products/zenplug), a re-badged version of the [Grasse Aroma GAH-04P](https://grassearoma.com/product/gah-04p-s/), controlled using the Scent Lab app.
+This custom integration was built to control a [Magnifiscent ZenPlug](https://magnifiscentonline.com/products/zenplug), a re-badged version of the [Grasse Aroma GAH-04P(S)](https://grassearoma.com/product/gah-04p-s/), controlled using the Scent Lab app.
 
 ## Install
 
