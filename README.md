@@ -12,7 +12,7 @@ This custom integration was built to control a [Magnifiscent ZenPlug](https://ma
 
 1. Click the button above, or in Home Assistant go to **HACS > Integrations > three dots > Custom repositories**
 2. Add `https://github.com/alexlewer/scentlab_ble` as **Integration**
-3. Search for **Scent Assistant** and click **Download**
+3. Search for **ScentLab BLE** and click **Download**
 4. Restart Home Assistant
 
 ## Setup
