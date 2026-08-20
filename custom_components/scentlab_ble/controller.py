@@ -361,7 +361,7 @@ class ScentLabBleController:
             await asyncio.sleep(0.35)
 
     async def async_set_nightlight(self, enabled: bool) -> None:
-        """Set APK light mode 1 or explicitly turn the light off."""
+        """Set APK light mode 2 or explicitly turn the light off."""
         async with self._async_operation(), self._async_session() as session:
             await session.async_write(
                 NIGHTLIGHT_ON_FRAME if enabled else NIGHTLIGHT_OFF_FRAME,

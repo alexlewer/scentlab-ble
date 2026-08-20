@@ -66,7 +66,7 @@ class ScentLabPowerSwitch(SwitchEntity, RestoreEntity):
 
 
 class ScentLabNightlightSwitch(SwitchEntity, RestoreEntity):
-    """Optimistic switch for APK light mode 1."""
+    """Optimistic switch for APK light mode 2."""
 
     _attr_has_entity_name = True
     _attr_name = "Nightlight"
@@ -92,7 +92,7 @@ class ScentLabNightlightSwitch(SwitchEntity, RestoreEntity):
             self._attr_is_on = last_state.state == "on"
 
     async def async_turn_on(self, **kwargs: object) -> None:
-        """Enable APK light mode 1."""
+        """Enable APK light mode 2."""
         await self._controller.async_set_nightlight(True)
         self._attr_is_on = True
         self.async_write_ha_state()
