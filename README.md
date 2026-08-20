@@ -16,7 +16,10 @@ The phone app should be closed while Home Assistant controls the diffuser becaus
 
 - Local Bluetooth control; no cloud dependency.
 - Short-lived connection for each ON/OFF command.
-- Optimistic switch state because the exact power-status notification has not yet been validated on this hardware.
+- Optimistic power and `Nightlight` switches because their exact status
+  notifications have not yet been validated on this hardware.
+- Experimental nightlight control using APK action `0x15`: mode `1` for on and
+  mode `0` for off. Alternate mode `2` is not exposed yet.
 - Optional four-character application-password submission before each command.
 - Enables FFE1 notifications and reproduces ScentLab's connection initialization.
 - Uses acknowledged GATT writes, matching the Android app.
