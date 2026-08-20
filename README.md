@@ -8,11 +8,18 @@ This custom integration was built to control a [Magnifiscent ZenPlug](https://ma
 
 ## Install
 
-1. Copy `custom_components/scentlab_ble` into the `custom_components` directory under your Home Assistant configuration directory.
-2. Restart Home Assistant.
-3. Open **Settings → Devices & services → Add integration**.
-4. Search for **ScentLab BLE Diffuser**.
-5. Enter the diffuser's Bluetooth MAC address. Leave the application password blank unless you explicitly enabled a four-character password in ScentLab.
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=alexlewer&repository=scentlab-ble&category=integration)
+
+1. Click the button above, or in Home Assistant go to **HACS > Integrations > three dots > Custom repositories**
+2. Add `https://github.com/alexlewer/scentlab-ble` as **Integration**
+3. Search for **Scent Assistant** and click **Download**
+4. Restart Home Assistant
+
+## Setup
+
+[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=scentlab-ble)
+
+Click the button above to start setup.
 
 The phone app should be closed while Home Assistant controls the diffuser as the device will only accept one active connection. Also ensure that your bluetooth adaptor in Home Assistant is set to **Scanning Mode → Active** under **Settings → Bluetooth**.
 
