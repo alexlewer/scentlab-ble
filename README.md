@@ -1,7 +1,7 @@
 # ScentLab BLE Diffuser for Home Assistant
 
 [![Validate with hassfest](https://github.com/alexlewer/scentlab-ble/actions/workflows/hassfest.yaml/badge.svg)](https://github.com/alexlewer/scentlab-ble/actions/workflows/hassfest.yaml)
-[![HACS Validate](https://github.com/alexlewer/scentlab-ble/actions/workflows/validate.yml/badge.svg)](https://github.com/alexlewer/scentlab-ble/actions/workflows/validate.yml)
+[![HACS Validate](https://github.com/alexlewer/scentlab-ble/actions/workflows/validate.yaml/badge.svg)](https://github.com/alexlewer/scentlab-ble/actions/workflows/validate.yaml)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-blue.svg)](https://github.com/custom-components/hacs)
 
 This custom integration was built to control a [Magnifiscent ZenPlug](https://magnifiscentonline.com/products/zenplug), a re-badged version of the [Grasse Aroma GAH-04P(S)](https://grassearoma.com/product/gah-04p-s/), controlled using the Scent Lab app.
