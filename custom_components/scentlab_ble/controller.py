@@ -71,21 +71,56 @@ class ScentLabBleController:
                     max_attempts=3,
                 )
 
+                def _notification_handler(
+                    _sender: object, data: bytearray
+                ) -> None:
+                    """Log protocol replies for validation and diagnostics."""
+                    _LOGGER.debug(
+                        "Notification from %s: %s",
+                        self.address,
+                        bytes(data).hex(" ").upper(),
+                    )
+
+                # The Android app enables FFE1 notifications before it sends any
+                # protocol packets. Some firmware appears to require that setup.
+                await client.start_notify(
+                    CHARACTERISTIC_UUID, _notification_handler
+                )
+                await asyncio.sleep(0.15)
+
+                async def _write(frame: bytes, label: str) -> None:
+                    """Write using the acknowledged GATT mode used by ScentLab."""
+                    _LOGGER.debug(
+                        "Writing %s to %s: %s",
+                        label,
+                        self.address,
+                        frame.hex(" ").upper(),
+                    )
+                    await client.write_gatt_char(
+                        CHARACTERISTIC_UUID, frame, response=True
+                    )
+
+                # Reproduce the standard protocol initialization performed by
+                # the Android app on every connection: password-status query,
+                # device enquiry, then capability/type query.
+                await _write(_build_frame(0x47), "password-status query")
+                await asyncio.sleep(0.25)
+
                 # ScentLab's application password is separate from BLE pairing.
                 # If configured, submit it once for this connection before control.
                 if self.password:
-                    await client.write_gatt_char(
-                        CHARACTERISTIC_UUID,
-                        _password_frame(self.password),
-                        response=False,
-                    )
-                    await asyncio.sleep(0.15)
+                    await _write(_password_frame(self.password), "password")
+                    await asyncio.sleep(0.25)
 
-                await client.write_gatt_char(
-                    CHARACTERISTIC_UUID,
+                await _write(_build_frame(0x09, b"\x01\x00"), "device enquiry")
+                await asyncio.sleep(0.5)
+                await _write(_build_frame(0x51), "capability query")
+                await asyncio.sleep(0.5)
+                await _write(
                     POWER_ON_FRAME if enabled else POWER_OFF_FRAME,
-                    response=False,
+                    "power on" if enabled else "power off",
                 )
+                await asyncio.sleep(0.35)
                 _LOGGER.debug(
                     "Sent power %s to %s", "on" if enabled else "off", self.address
                 )
