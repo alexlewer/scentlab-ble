@@ -26,7 +26,7 @@ The phone app should be closed while Home Assistant controls the diffuser as the
 - Rejects overlapping operations immediately instead of replaying queued commands
   after Bluetooth connectivity returns.
 - Debug logging includes transmitted packets and received notifications.
-- When a command is sent from HA, you will hear three sets of two beeps; the first set is the connection starting, the second is the command being sent and the third is the connection ending.
+- When a command is sent from HA, you will hear either two or three sets of two beeps; the first set is the connection starting, the second is the command being sent (on update) and the third is the connection ending.
 
 ## Schedule entities
 
