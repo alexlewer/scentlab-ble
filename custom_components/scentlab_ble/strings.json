@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "This diffuser is already configured."
+    },
+    "error": {
+      "invalid_address": "Enter a valid six-part Bluetooth MAC address.",
+      "invalid_password": "Enter exactly four ASCII characters, or leave the password blank."
+    },
+    "step": {
+      "bluetooth_confirm": {
+        "data": {
+          "password": "ScentLab application password (optional)"
+        },
+        "description": "Set up {name}. Leave the password blank unless you enabled a four-character password inside ScentLab.",
+        "title": "Confirm ScentLab diffuser"
+      },
+      "user": {
+        "data": {
+          "address": "Bluetooth MAC address",
+          "name": "Name",
+          "password": "ScentLab application password (optional)"
+        },
+        "description": "Enter the diffuser's Bluetooth address. Leave the password blank unless you enabled a four-character password inside ScentLab.",
+        "title": "Add ScentLab BLE diffuser"
+      }
+    }
+  }
+}
