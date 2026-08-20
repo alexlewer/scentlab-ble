@@ -8,7 +8,7 @@ This custom integration was built to control a [Magnifiscent ZenPlug](https://ma
 
 ## Install
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=alexlewer&repository=scentlab_ble&category=integration)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=alexlewer&repository=scentlab-ble&category=integration)
 
 1. Click the button above, or in Home Assistant go to **HACS > Integrations > three dots > Custom repositories**
 2. Add `https://github.com/alexlewer/scentlab_ble` as **Integration**
