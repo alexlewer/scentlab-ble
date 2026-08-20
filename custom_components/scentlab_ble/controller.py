@@ -23,13 +23,7 @@ from homeassistant.components import bluetooth
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 
-from .const import (
-    CHARACTERISTIC_UUID,
-    NIGHTLIGHT_OFF_FRAME,
-    NIGHTLIGHT_ON_FRAME,
-    POWER_OFF_FRAME,
-    POWER_ON_FRAME,
-)
+from .const import CHARACTERISTIC_UUID, POWER_OFF_FRAME, POWER_ON_FRAME
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -357,15 +351,6 @@ class ScentLabBleController:
             await session.async_write(
                 POWER_ON_FRAME if enabled else POWER_OFF_FRAME,
                 "power on" if enabled else "power off",
-            )
-            await asyncio.sleep(0.35)
-
-    async def async_set_nightlight(self, enabled: bool) -> None:
-        """Set APK light mode 2 or explicitly turn the light off."""
-        async with self._async_operation(), self._async_session() as session:
-            await session.async_write(
-                NIGHTLIGHT_ON_FRAME if enabled else NIGHTLIGHT_OFF_FRAME,
-                "nightlight on" if enabled else "nightlight off",
             )
             await asyncio.sleep(0.35)
 

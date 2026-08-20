@@ -21,7 +21,7 @@ async def async_setup_entry(
     """Set up the ScentLab BLE switch."""
     controller = entry.runtime_data
     async_add_entities(
-        [ScentLabPowerSwitch(controller), ScentLabNightlightSwitch(controller)]
+        [ScentLabPowerSwitch(controller)]
         + [ScentLabScheduleSwitch(controller, slot) for slot in range(1, 6)]
     )
 
@@ -61,45 +61,6 @@ class ScentLabPowerSwitch(SwitchEntity, RestoreEntity):
     async def async_turn_off(self, **kwargs: object) -> None:
         """Turn the diffuser off."""
         await self._controller.async_set_power(False)
-        self._attr_is_on = False
-        self.async_write_ha_state()
-
-
-class ScentLabNightlightSwitch(SwitchEntity, RestoreEntity):
-    """Optimistic switch for APK light mode 2."""
-
-    _attr_has_entity_name = True
-    _attr_name = "Nightlight"
-    _attr_assumed_state = True
-    _attr_icon = "mdi:lightbulb-night"
-
-    def __init__(self, controller: ScentLabBleController) -> None:
-        self._controller = controller
-        self._attr_unique_id = f"{controller.address}_nightlight"
-        self._attr_device_info = device_info(controller)
-
-    @property
-    def available(self) -> bool:
-        """Return whether a connectable adapter can currently see the diffuser."""
-        return bluetooth.async_address_present(
-            self.hass, self._controller.address, connectable=True
-        )
-
-    async def async_added_to_hass(self) -> None:
-        """Restore the last optimistic state after restart."""
-        await super().async_added_to_hass()
-        if (last_state := await self.async_get_last_state()) is not None:
-            self._attr_is_on = last_state.state == "on"
-
-    async def async_turn_on(self, **kwargs: object) -> None:
-        """Enable APK light mode 2."""
-        await self._controller.async_set_nightlight(True)
-        self._attr_is_on = True
-        self.async_write_ha_state()
-
-    async def async_turn_off(self, **kwargs: object) -> None:
-        """Turn the light off."""
-        await self._controller.async_set_nightlight(False)
         self._attr_is_on = False
         self.async_write_ha_state()
 
