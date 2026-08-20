@@ -40,7 +40,8 @@ class ScentLabScheduleTime(ScentLabScheduleEntity, TimeEntity):
     ) -> None:
         super().__init__(controller, slot)
         self.kind = kind
-        self._attr_name = f"Schedule {slot} {kind} time"
+        label = "Start Time" if kind == "start" else "End Time"
+        self._attr_name = f"Schedule {slot} {label}"
         self._attr_unique_id = f"{controller.address}_schedule_{slot}_{kind}"
 
     @property

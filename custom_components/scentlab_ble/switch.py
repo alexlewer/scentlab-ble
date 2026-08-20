@@ -72,7 +72,7 @@ class ScentLabScheduleSwitch(ScentLabScheduleEntity, SwitchEntity):
 
     def __init__(self, controller: ScentLabBleController, slot: int) -> None:
         super().__init__(controller, slot)
-        self._attr_name = f"Schedule {slot} enabled"
+        self._attr_name = f"Schedule {slot}"
         self._attr_unique_id = f"{controller.address}_schedule_{slot}_enabled"
 
     @property

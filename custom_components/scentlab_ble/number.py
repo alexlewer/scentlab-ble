@@ -43,7 +43,8 @@ class ScentLabScheduleDuration(ScentLabScheduleEntity, NumberEntity):
         super().__init__(controller, slot)
         self.kind = kind
         self._attr_icon = "mdi:spray" if kind == "spray" else "mdi:timer-pause"
-        self._attr_name = f"Schedule {slot} {kind} duration"
+        label = "Spray" if kind == "spray" else "Pause"
+        self._attr_name = f"Schedule {slot} {label}"
         self._attr_unique_id = f"{controller.address}_schedule_{slot}_{kind}"
 
     @property

@@ -296,6 +296,20 @@ class ScentLabBleController:
         raise RuntimeError("Bluetooth recovery loop exited unexpectedly")
 
     @asynccontextmanager
+    async def _async_operation(self) -> AsyncIterator[None]:
+        """Run one BLE operation without allowing delayed commands to queue."""
+        if self._lock.locked():
+            raise HomeAssistantError(
+                f"A Bluetooth operation for {self.name} is already in progress; "
+                "this command was not queued"
+            )
+        await self._lock.acquire()
+        try:
+            yield
+        finally:
+            self._lock.release()
+
+    @asynccontextmanager
     async def _async_session(self) -> AsyncIterator[_ScentLabSession]:
         """Connect, initialize like ScentLab, yield, and always disconnect."""
         client: BleakClientWithServiceCache | None = None
@@ -333,7 +347,7 @@ class ScentLabBleController:
 
     async def async_set_power(self, enabled: bool) -> None:
         """Set diffuser power."""
-        async with self._lock, self._async_session() as session:
+        async with self._async_operation(), self._async_session() as session:
             await session.async_write(
                 POWER_ON_FRAME if enabled else POWER_OFF_FRAME,
                 "power on" if enabled else "power off",
@@ -367,14 +381,14 @@ class ScentLabBleController:
 
     async def async_refresh_schedules(self) -> dict[int, ScheduleRecord]:
         """Refresh the schedule cache from the diffuser."""
-        async with self._lock, self._async_session() as session:
+        async with self._async_operation(), self._async_session() as session:
             schedules = await self._async_query_schedules(session)
         self._publish_schedules(schedules)
         return schedules
 
     async def async_update_schedule(self, slot: int, **changes: object) -> None:
         """Read, modify and write one complete schedule record safely."""
-        async with self._lock, self._async_session() as session:
+        async with self._async_operation(), self._async_session() as session:
             schedules = await self._async_query_schedules(session)
             if slot not in schedules:
                 raise HomeAssistantError(f"Schedule slot {slot} is not present")
