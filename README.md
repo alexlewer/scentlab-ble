@@ -2,7 +2,7 @@
 
 This custom integration controls a `Scent-B04P...` diffuser through Home Assistant's own connectable Bluetooth adapter. It writes the reverse-engineered ScentLab ON/OFF packets to characteristic `FFE1` and disconnects after each command.
 
-It was built to control a [Magnifiscent ZenPlug] (https://magnifiscentonline.com/products/zenplug) device, a re-badged GAH-04P device.
+It was built to control a [Magnifiscent ZenPlug](https://magnifiscentonline.com/products/zenplug) device, a re-badged GAH-04P device.
 
 ## Install
 
