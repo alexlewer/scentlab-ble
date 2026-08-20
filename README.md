@@ -1,6 +1,6 @@
 # ScentLab BLE Diffuser for Home Assistant
 
-This custom integration controls a `Scent-B04P...` diffuser through Home Assistant's own connectable Bluetooth adapter. It writes the reverse-engineered ScentLab protocol to characteristic `FFE1` and disconnects after each operation.
+This custom integration was built to control a [Magnifiscent ZenPlug](https://magnifiscentonline.com/products/zenplug), a re-badged version of the [Grasse Aroma GAH-04P](https://grassearoma.com/product/gah-04p-s/), controlled using the Scent Lab app.
 
 ## Install
 
@@ -10,7 +10,7 @@ This custom integration controls a `Scent-B04P...` diffuser through Home Assista
 4. Search for **ScentLab BLE Diffuser**.
 5. Enter the diffuser's Bluetooth MAC address. Leave the application password blank unless you explicitly enabled a four-character password in ScentLab.
 
-The phone app should be closed while Home Assistant controls the diffuser because many inexpensive BLE peripherals accept only one active connection.
+The phone app should be closed while Home Assistant controls the diffuser as the device will only accept one active connection. Also ensure that your bluetooth adaptor in Home Assistant is set to **Scanning Mode → Active** under **Settings → Bluetooth**.
 
 ## Current behavior
 
